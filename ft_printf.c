@@ -6,7 +6,7 @@
 /*   By: nquecedo <nquecedo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 21:57:26 by nquecedo          #+#    #+#             */
-/*   Updated: 2023/12/21 04:56:05 by nquecedo         ###   ########.fr       */
+/*   Updated: 2023/12/21 06:03:38 by nquecedo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ft_print_str(const char *str)
 {
 	int len;
 	
+	len = 0;
 	while (str[len])
 		len++;
 	if (!str)
@@ -31,6 +32,7 @@ void	ft_print_num_base(char *base, long nbr)
 {
 	int base_len;
 	
+	base_len = 0;
 	while (base[base_len])
 		base_len++;
 	if (nbr < 0)
@@ -39,19 +41,28 @@ void	ft_print_num_base(char *base, long nbr)
 		nbr *= -1;
 	}
 	if (nbr < base_len)
-	{
 		write(1, &base[nbr], 1);
-	}
 	else
 	{
-			ft_print_num_base(base, nbr / base_len);
-			write(1, &base[nbr % base_len], 1);
+		ft_print_num_base(base, nbr / base_len);
+		write(1, &base[nbr % base_len], 1);
 	}
 }
 
-void	ft_putchar(char c)
+void	ft_print_pointer(char *base, size_t pointer_nbr)
 {
-	write(1, &c, 1);
+	size_t base_len;
+
+	base_len = 0;
+	while (base[base_len])
+		base_len++;
+	if (pointer_nbr < base_len)
+		write(1, &base[pointer_nbr], 1);
+	else
+	{
+		ft_print_pointer(base, pointer_nbr / base_len);
+		write(1, &base[pointer_nbr % base_len], 1);
+	}	
 }
 
 int	ft_detect_converters(const char *str, va_list args)
@@ -59,11 +70,11 @@ int	ft_detect_converters(const char *str, va_list args)
 	if (*str == '%')
 	{
 		if (*(str + 1) == 'c')
-			ft_putchar(va_arg(args, int));
+			write (1, (char [1]){(char)va_arg(args, int)}, 1);
 		else if (*(str + 1) == 's')
 			ft_print_str(va_arg(args, const char *));
 		else if (*(str + 1) == 'p')
-			ft_print_num_base(HEXA_DIGS_LOWER, (long)va_arg(args, void *));
+			ft_print_pointer(HEXA_DIGS_LOWER, (unsigned long)va_arg(args, void *));
 		else if (*(str + 1) == 'd')
 			ft_print_num_base(DEC_DIGS, va_arg(args, int));
 		else if (*(str + 1) == 'i')
@@ -75,11 +86,11 @@ int	ft_detect_converters(const char *str, va_list args)
 		else if (*(str + 1) == 'X')
 			ft_print_num_base(HEX_DIGS_UPPER, va_arg(args, int));
 		else if (*(str + 1) == '%')
-			ft_putchar('%');
+			write(1, "%", 1);
 		return (1);
 	}
 	else
-		ft_putchar(*str);
+		write(1, str, 1);
 	return (0);
 }
 int	ft_printf(const char *str, ...)
@@ -99,10 +110,10 @@ int	ft_printf(const char *str, ...)
 
 int main()
 {
-	const char *str = "hola mundo";
-	char c = 'c';
-	char *str2 = "que tal";
-	ft_printf("Imprime mio: %u\n", -65);
-	printf("Imprime ORIGINAL: %u\n", -65);
+	// const char *str = "hola mundo";
+	char c = 'z';
+	// char *str2 = "que tal";
+	ft_printf("Imprime mio: %c\n" , c);
+	printf("Imprime ORIGINAL: %c\n", c);
 	return (0);
 }
