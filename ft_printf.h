@@ -6,7 +6,7 @@
 /*   By: nquecedo <nquecedo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 21:34:58 by nquecedo          #+#    #+#             */
-/*   Updated: 2023/12/21 03:22:33 by nquecedo         ###   ########.fr       */
+/*   Updated: 2023/12/21 06:29:48 by nquecedo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+int	ft_printf(char const *str, ...);
 
 # define DEC_DIGS "0123456789"
 # define HEX_DIGS_UPPER "0123456789ABCDEF"

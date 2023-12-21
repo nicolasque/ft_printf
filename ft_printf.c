@@ -6,7 +6,7 @@
 /*   By: nquecedo <nquecedo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 21:57:26 by nquecedo          #+#    #+#             */
-/*   Updated: 2023/12/21 06:03:38 by nquecedo         ###   ########.fr       */
+/*   Updated: 2023/12/21 06:58:37 by nquecedo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,27 +93,26 @@ int	ft_detect_converters(const char *str, va_list args)
 		write(1, str, 1);
 	return (0);
 }
-int	ft_printf(const char *str, ...)
+int	ft_printf(char const *str, ...)
 {
 	va_list	args;
+	int		i;
 
+	i = 0;
 	va_start(args, str);
 	while (*str)
 	{
 		if (ft_detect_converters(str, args))
-			str ++;
+		{
+		str ++;
+		}	
 		str ++;
 	}
 	va_end(args);
-	return (0);
+	
+		
+
+	return (i);
 }
 
-int main()
-{
-	// const char *str = "hola mundo";
-	char c = 'z';
-	// char *str2 = "que tal";
-	ft_printf("Imprime mio: %c\n" , c);
-	printf("Imprime ORIGINAL: %c\n", c);
-	return (0);
-}
+
