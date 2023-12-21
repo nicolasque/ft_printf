@@ -6,7 +6,7 @@
 /*   By: nquecedo <nquecedo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 21:34:58 by nquecedo          #+#    #+#             */
-/*   Updated: 2023/12/20 21:50:56 by nquecedo         ###   ########.fr       */
+/*   Updated: 2023/12/21 03:22:33 by nquecedo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
-size_t	ft_strlen(char *str);
-
+# define DEC_DIGS "0123456789"
+# define HEX_DIGS_UPPER "0123456789ABCDEF"
+# define HEXA_DIGS_LOWER "0123456789abcdef"
 
 #endif //FT_PRINTF_H
