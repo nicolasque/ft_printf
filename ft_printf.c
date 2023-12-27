@@ -6,7 +6,7 @@
 /*   By: nquecedo <nquecedo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 21:57:26 by nquecedo          #+#    #+#             */
-/*   Updated: 2023/12/27 15:27:33 by nquecedo         ###   ########.fr       */
+/*   Updated: 2023/12/27 15:56:19 by nquecedo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_detect_converters(char *str, va_list args)
 	if (*str == '%')
 	{
 		if (*(str + 1) == 'c')
-			write(1, &(char){va_arg(args, int)}, 1);
+			return (write(1, &(char){va_arg(args, int)}, 1));
 		else if (*(str + 1) == 's')
 			return (ft_print_str(va_arg(args, char *)));
 		else if (*(str + 1) == 'p')
@@ -97,7 +97,7 @@ int	ft_detect_converters(char *str, va_list args)
 		else if (*(str + 1) == 'X')
 			return (ft_print_num_base(HEX_UP, va_arg(args, unsigned int)));
 		else if (*(str + 1) == '%')
-			write(1, "%", 1);
+			return (write(1, "%", 1));
 		return (1);
 	}
 	return (0);
@@ -122,7 +122,8 @@ int	ft_printf(char const *str, ...)
 		}
 		else
 		{
-			write(1, str, 1);
+			if (write(1, str, 1) == -1)
+				return (-1);
 			i ++;
 		}
 		str ++;
