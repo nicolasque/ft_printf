@@ -6,7 +6,7 @@
 /*   By: nquecedo <nquecedo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 21:57:26 by nquecedo          #+#    #+#             */
-/*   Updated: 2023/12/26 19:47:55 by nquecedo         ###   ########.fr       */
+/*   Updated: 2023/12/27 15:27:33 by nquecedo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,38 @@ int	ft_print_str(char *str)
 	return (len);
 }
 
-int	ft_print_num_base(char *base, long nbr, int print_prefix)
+int ft_print_pointer(char *base, size_t nbr, int print_prefix)
+{
+	size_t	print_len;
+	size_t	base_len;
+
+	print_len = 0;
+	base_len = 0;
+	if (print_prefix)
+		print_len += ft_print_str("0x");
+	while (base[base_len])
+		base_len++;
+	if (nbr < base_len)
+		write(1, &base[nbr], 1);
+	else
+	{
+		print_len += ft_print_pointer(base, nbr / base_len, 0);
+		write(1, &base[nbr % base_len], 1);
+		print_len ++;
+	}
+	return (print_len);
+}
+
+int	ft_print_num_base(char *base, long nbr)
 {
 	int	base_len;
 	int	print_len;
 
-	print_len = 0;
+	print_len = 1;
 	base_len = 0;
 	while (base[base_len])
 		base_len++;
-	if (print_prefix)
-		print_len += ft_print_str("0x");
+
 	if (nbr < 0)
 	{
 		print_len += ft_print_str("-");
@@ -51,9 +72,8 @@ int	ft_print_num_base(char *base, long nbr, int print_prefix)
 		write(1, &base[nbr], 1);
 	else
 	{
-		print_len += ft_print_num_base(base, nbr / base_len, 0);
+		print_len += ft_print_num_base(base, nbr / base_len);
 		write(1, &base[nbr % base_len], 1);
-		print_len ++;
 	}
 	return (print_len);
 }
@@ -63,20 +83,19 @@ int	ft_detect_converters(char *str, va_list args)
 	if (*str == '%')
 	{
 		if (*(str + 1) == 'c')
-			write (1, (char [1]){(char)va_arg(args, int)}, 1);
+			write(1, &(char){va_arg(args, int)}, 1);
 		else if (*(str + 1) == 's')
 			return (ft_print_str(va_arg(args, char *)));
 		else if (*(str + 1) == 'p')
-			return (ft_print_num_base(HEXA_LO, \
-			(unsigned long)va_arg(args, void *), 1) + 1);
+			return (ft_print_pointer(HEXA_LO, (size_t)va_arg(args, void *), 1) + 1);
 		else if (*(str + 1) == 'd' || *(str + 1) == 'i')
-			return (ft_print_num_base(DEC_DIGS, va_arg(args, int), 0));
+			return (ft_print_num_base(DEC_DIGS, va_arg(args, int)));
 		else if (*(str + 1) == 'u')
-			return (ft_print_num_base(DEC_DIGS, va_arg(args, unsigned int), 0));
+			return (ft_print_num_base(DEC_DIGS, va_arg(args, unsigned int)));
 		else if (*(str + 1) == 'x')
-			return (ft_print_num_base(HEXA_LO, va_arg(args, unsigned int), 0));
+			return (ft_print_num_base(HEXA_LO, va_arg(args, unsigned int)));
 		else if (*(str + 1) == 'X')
-			return (ft_print_num_base(HEX_UP, va_arg(args, unsigned int), 0));
+			return (ft_print_num_base(HEX_UP, va_arg(args, unsigned int)));
 		else if (*(str + 1) == '%')
 			write(1, "%", 1);
 		return (1);
