@@ -6,7 +6,7 @@
 /*   By: nquecedo <nquecedo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 21:57:26 by nquecedo          #+#    #+#             */
-/*   Updated: 2023/12/27 15:56:19 by nquecedo         ###   ########.fr       */
+/*   Updated: 2023/12/27 20:08:09 by nquecedo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ int	ft_print_str(char *str)
 	else
 	{
 		while (str[len])
-		len++;
+			len++;
 		write(1, str, len);
 	}
 	return (len);
 }
 
-int ft_print_pointer(char *base, size_t nbr, int print_prefix)
+int	ft_print_pointer(char *base, size_t nbr, int print_prefix)
 {
 	size_t	print_len;
 	size_t	base_len;
@@ -62,7 +62,6 @@ int	ft_print_num_base(char *base, long nbr)
 	base_len = 0;
 	while (base[base_len])
 		base_len++;
-
 	if (nbr < 0)
 	{
 		print_len += ft_print_str("-");
@@ -87,7 +86,8 @@ int	ft_detect_converters(char *str, va_list args)
 		else if (*(str + 1) == 's')
 			return (ft_print_str(va_arg(args, char *)));
 		else if (*(str + 1) == 'p')
-			return (ft_print_pointer(HEXA_LO, (size_t)va_arg(args, void *), 1) + 1);
+			return (ft_print_pointer(HEXA_LO, \
+			(size_t)va_arg(args, void *), 1) + 1);
 		else if (*(str + 1) == 'd' || *(str + 1) == 'i')
 			return (ft_print_num_base(DEC_DIGS, va_arg(args, int)));
 		else if (*(str + 1) == 'u')
@@ -122,8 +122,7 @@ int	ft_printf(char const *str, ...)
 		}
 		else
 		{
-			if (write(1, str, 1) == -1)
-				return (-1);
+			write(1, str, 1);
 			i ++;
 		}
 		str ++;
